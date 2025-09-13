@@ -4,6 +4,55 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Cosméticos Full Service Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              'brand-primary': '#635BFF',
+              'brand-secondary': '#F0F0FF',
+              'base-100': '#FFFFFF',
+              'base-200': '#F7F8FA',
+              'base-300': '#E6E8EB',
+              'text-primary': '#1A1F36',
+              'text-secondary': '#6B7280',
+            },
+            animation: {
+              'gradient-x': 'gradient-x 5s ease infinite',
+            },
+            keyframes: {
+              'gradient-x': {
+                '0%, 100%': {
+                  'background-size': '200% 200%',
+                  'background-position': 'left center'
+                },
+                '50%': {
+                  'background-size': '200% 200%',
+                  'background-position': 'right center'
+                }
+              }
+            }
+          }
+        }
+      }
+    </script>
+  <script type="importmap">
+{
+  "imports": {
+    "react/": "https://aistudiocdn.com/react@^19.1.1/",
+    "react": "https://aistudiocdn.com/react@^19.1.1",
+    "react-dom/": "https://aistudiocdn.com/react-dom@^19.1.1/",
+    "recharts": "https://aistudiocdn.com/recharts@^3.2.0"
+  }
+}
+</script>
+<style>
+  /* For smooth sidebar transitions */
+  aside {
+    transition: width 0.3s ease-in-out;
+  }
+</style>
 </head>
   <body class="bg-base-200">
     <div id="root"></div>
