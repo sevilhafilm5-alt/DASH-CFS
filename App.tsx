@@ -5,8 +5,24 @@ import { AddDataView } from './components/AddDataView';
 import { DashboardData, View } from './types';
 import { generateInitialData } from './services/dataService';
 
-const Header: React.FC = () => (
-    <header className="flex justify-end items-center px-4 sm:px-6 lg:px-8 py-4">
+const MenuIcon = (props: React.SVGProps<SVGSVGElement>) => (
+  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" {...props}>
+    <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+  </svg>
+);
+
+const Header: React.FC<{
+  isCollapsed: boolean;
+  setIsCollapsed: React.Dispatch<React.SetStateAction<boolean>>;
+}> = ({ isCollapsed, setIsCollapsed }) => (
+    <header className="flex justify-between items-center px-4 sm:px-6 lg:px-8 py-4">
+        <button
+            onClick={() => setIsCollapsed(!isCollapsed)}
+            className="p-2 rounded-lg text-text-secondary hover:bg-base-300/60"
+            aria-label={isCollapsed ? "Expand sidebar" : "Collapse sidebar"}
+        >
+            <MenuIcon className="w-6 h-6" />
+        </button>
         <div className="flex items-center space-x-4">
             <span className="font-semibold text-text-primary hidden sm:block">Frank W</span>
             <div className="w-10 h-10 rounded-full bg-brand-primary text-white flex items-center justify-center font-bold text-lg cursor-pointer">
@@ -19,6 +35,7 @@ const Header: React.FC = () => (
 const App: React.FC = () => {
   const [activeView, setActiveView] = useState<View>(View.Dashboard);
   const [dashboardData, setDashboardData] = useState<DashboardData>(generateInitialData(true));
+  const [isCollapsed, setIsCollapsed] = useState(false);
 
   const handleResetData = useCallback(() => {
     setDashboardData(generateInitialData(true));
@@ -57,9 +74,9 @@ const App: React.FC = () => {
 
   return (
     <div className="flex h-screen bg-base-200 text-text-primary font-sans">
-      <Sidebar activeView={activeView} setActiveView={setActiveView} />
+      <Sidebar activeView={activeView} setActiveView={setActiveView} isCollapsed={isCollapsed} />
       <div className="flex-1 flex flex-col overflow-hidden">
-        <Header />
+        <Header isCollapsed={isCollapsed} setIsCollapsed={setIsCollapsed} />
         <main className="flex-1 overflow-y-auto px-4 sm:px-6 lg:px-8 pb-8">
             {activeView === View.Dashboard && <DashboardView data={dashboardData} />}
             {activeView === View.Team && <AddDataView onUpdateData={handleUpdateData} onResetData={handleResetData} />}

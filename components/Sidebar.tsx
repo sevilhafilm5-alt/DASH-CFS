@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { View } from '../types';
 
 interface SidebarProps {
   activeView: View;
   setActiveView: (view: View) => void;
+  isCollapsed: boolean;
 }
 
 const NavItem: React.FC<{
@@ -38,20 +39,11 @@ const TeamIcon = (props: React.SVGProps<SVGSVGElement>) => (
     </svg>
 );
 
-const MenuIcon = (props: React.SVGProps<SVGSVGElement>) => (
-  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" {...props}>
-    <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
-  </svg>
-);
-
-
-export const Sidebar: React.FC<SidebarProps> = ({ activeView, setActiveView }) => {
-  const [isCollapsed, setIsCollapsed] = useState(false);
-
+export const Sidebar: React.FC<SidebarProps> = ({ activeView, setActiveView, isCollapsed }) => {
   return (
-    <aside className={`bg-base-100 border-r border-base-300 flex flex-col p-4 relative ${isCollapsed ? 'w-24' : 'w-64'}`}>
-      <div className="flex items-center h-16 mb-6">
-        <h1 className={`text-xl font-bold bg-gradient-to-r from-blue-400 via-purple-500 to-yellow-400 text-transparent bg-clip-text animate-gradient-x transition-all duration-300 ${isCollapsed ? 'text-3xl' : 'text-xl'}`}>
+    <aside className={`bg-base-100 border-r border-base-300 flex flex-col p-4 relative transition-all duration-300 ${isCollapsed ? 'w-0 md:w-24' : 'w-64'}`}>
+      <div className="flex items-center h-16 mb-6 overflow-hidden">
+        <h1 className={`text-xl font-bold bg-gradient-to-r from-blue-400 via-purple-500 to-yellow-400 text-transparent bg-clip-text animate-gradient-x transition-all duration-300 whitespace-nowrap ${isCollapsed ? 'text-3xl' : 'text-xl'}`}>
           {isCollapsed ? 'CFS' : 'Cosméticos Full Service'}
         </h1>
       </div>
@@ -71,11 +63,6 @@ export const Sidebar: React.FC<SidebarProps> = ({ activeView, setActiveView }) =
           onClick={() => setActiveView(View.Team)}
         />
       </nav>
-      <div className="mt-auto">
-        <button onClick={() => setIsCollapsed(!isCollapsed)} className="flex items-center justify-center w-full p-3 rounded-lg text-text-secondary hover:bg-base-300/60">
-          <MenuIcon className="w-6 h-6" />
-        </button>
-      </div>
     </aside>
   );
 };

@@ -193,6 +193,13 @@ export const AddDataView: React.FC<AddDataViewProps> = ({ onUpdateData, onResetD
       alert("As notificações estão desativadas.");
       return;
     }
+    
+    const isIOS = typeof navigator !== 'undefined' && /iPad|iPhone|iPod/.test(navigator.userAgent);
+    if (isIOS) {
+        alert('As notificações web nativas não são totalmente suportadas em aplicativos da tela inicial (PWAs) no iOS. Para uma experiência de notificação completa, use um navegador de desktop ou um dispositivo Android.');
+        return;
+    }
+
     if (!('Notification' in window)) {
       alert('Este navegador não suporta notificações.');
       return;
