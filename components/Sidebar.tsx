@@ -16,14 +16,14 @@ const NavItem: React.FC<{
 }> = ({ icon, label, isActive, isCollapsed, onClick }) => (
   <button
     onClick={onClick}
-    className={`flex items-center w-full px-4 py-3 text-sm font-medium rounded-lg transition-colors duration-200 ${
+    className={`flex items-center w-full text-sm font-medium rounded-lg transition-colors duration-200 ${
       isActive
         ? 'bg-brand-primary text-white'
         : 'text-text-secondary hover:bg-base-300/60 hover:text-text-primary'
-    } ${isCollapsed ? 'justify-center' : ''}`}
+    } ${isCollapsed ? 'justify-center p-3' : 'px-4 py-3'}`}
   >
     {React.cloneElement(icon, { className: 'w-6 h-6' })}
-    <span className={`ml-3 whitespace-nowrap transition-opacity duration-300 ${isCollapsed ? 'opacity-0 w-0' : 'opacity-100'}`}>{label}</span>
+    <span className={`whitespace-nowrap transition-opacity duration-300 ${isCollapsed ? 'opacity-0 w-0' : 'opacity-100 ml-3'}`}>{label}</span>
   </button>
 );
 
