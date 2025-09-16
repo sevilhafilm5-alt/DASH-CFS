@@ -183,7 +183,7 @@ export const AddDataView: React.FC<AddDataViewProps> = ({ onUpdateData, onResetD
       return;
     }
     const iconUrl = notificationImage ? URL.createObjectURL(notificationImage) : undefined;
-    const notification = new Notification('Sales Recory', { body: notificationMessage, icon: iconUrl, tag: 'sales-recory-notification' });
+    const notification = new Notification('Cosméticos Full Service', { body: notificationMessage, icon: iconUrl, tag: 'cosmeticos-full-service-notification' });
     if(iconUrl) notification.onclose = () => URL.revokeObjectURL(iconUrl);
     alert('Notificação disparada!');
   };

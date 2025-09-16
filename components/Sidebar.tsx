@@ -44,7 +44,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ activeView, setActiveView, isC
     <aside className={`bg-base-100 border-r border-base-300 flex flex-col p-4 relative transition-all duration-300 ${isCollapsed ? 'w-0 md:w-24' : 'w-64'}`}>
       <div className="flex items-center h-16 mb-6 overflow-hidden">
         <h1 className={`text-xl font-bold bg-gradient-to-r from-blue-400 via-purple-500 to-yellow-400 text-transparent bg-clip-text animate-gradient-x transition-all duration-300 whitespace-nowrap ${isCollapsed ? 'text-3xl' : 'text-xl'}`}>
-          {isCollapsed ? 'SR' : 'Sales Recory'}
+          {isCollapsed ? 'CFS' : 'Cosméticos Full Service'}
         </h1>
       </div>
       <nav className="flex flex-col space-y-2">

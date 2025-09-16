@@ -24,9 +24,9 @@ const Header: React.FC<{
             <MenuIcon className="w-6 h-6" />
         </button>
         <div className="flex items-center space-x-4">
-            <span className="font-semibold text-text-primary hidden sm:block">Vitor W</span>
+            <span className="font-semibold text-text-primary hidden sm:block">Frank</span>
             <div className="w-10 h-10 rounded-full bg-brand-primary text-white flex items-center justify-center font-bold text-lg cursor-pointer">
-                V
+                F
             </div>
         </div>
     </header>
