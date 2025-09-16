@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useRef } from 'react';
 import { Sidebar } from './components/Sidebar';
 import { DashboardView } from './components/DashboardView';
 import { AddDataView } from './components/AddDataView';
@@ -24,9 +24,9 @@ const Header: React.FC<{
             <MenuIcon className="w-6 h-6" />
         </button>
         <div className="flex items-center space-x-4">
-            <span className="font-semibold text-text-primary hidden sm:block">Frank W</span>
+            <span className="font-semibold text-text-primary hidden sm:block">Vitor W</span>
             <div className="w-10 h-10 rounded-full bg-brand-primary text-white flex items-center justify-center font-bold text-lg cursor-pointer">
-                F
+                V
             </div>
         </div>
     </header>
@@ -36,6 +36,35 @@ const App: React.FC = () => {
   const [activeView, setActiveView] = useState<View>(View.Dashboard);
   const [dashboardData, setDashboardData] = useState<DashboardData>(generateInitialData(true));
   const [isCollapsed, setIsCollapsed] = useState(false);
+  const touchStartRef = useRef<number | null>(null);
+  const sidebarWidth = 256; // Corresponds to w-64 in TailwindCSS (16rem * 16px/rem)
+  const swipeThreshold = 50; // Minimum distance for a swipe
+
+  const handleTouchStart = (e: React.TouchEvent) => {
+    touchStartRef.current = e.targetTouches[0].clientX;
+  };
+
+  const handleTouchEnd = (e: React.TouchEvent) => {
+    if (touchStartRef.current === null) {
+      return;
+    }
+
+    const touchEnd = e.changedTouches[0].clientX;
+    const touchDistance = touchEnd - touchStartRef.current;
+    const startX = touchStartRef.current;
+    
+    // Swipe right to open: must start near the left edge when collapsed
+    if (isCollapsed && touchDistance > swipeThreshold && startX < swipeThreshold) {
+      setIsCollapsed(false);
+    }
+
+    // Swipe left to close: must start within the sidebar area when open
+    if (!isCollapsed && touchDistance < -swipeThreshold && startX < sidebarWidth) {
+      setIsCollapsed(true);
+    }
+
+    touchStartRef.current = null;
+  };
 
   const handleResetData = useCallback(() => {
     setDashboardData(generateInitialData(true));
@@ -73,7 +102,11 @@ const App: React.FC = () => {
 
 
   return (
-    <div className="flex h-screen bg-base-200 text-text-primary font-sans">
+    <div 
+      className="flex h-screen bg-base-200 text-text-primary font-sans"
+      onTouchStart={handleTouchStart}
+      onTouchEnd={handleTouchEnd}
+    >
       <Sidebar activeView={activeView} setActiveView={setActiveView} isCollapsed={isCollapsed} />
       <div className="flex-1 flex flex-col overflow-hidden">
         <Header isCollapsed={isCollapsed} setIsCollapsed={setIsCollapsed} />

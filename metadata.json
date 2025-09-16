@@ -1,5 +1,5 @@
 {
-  "name": "Cosméticos Full Service Dashboard",
-  "description": "A dynamic and manipulable sales dashboard for tracking transactions, sales metrics, and sending custom notifications, inspired by the Stripe UI.",
+  "name": "Sales Recory",
+  "description": "Dashboard Sales Recory",
   "requestFramePermissions": []
 }

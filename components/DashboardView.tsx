@@ -22,7 +22,7 @@ const WelcomeHeader: React.FC = () => {
 
     return (
         <h2 className="text-3xl font-bold text-text-primary">
-            Olá Frank, {greeting.text} {greeting.emoji}
+            Olá Vitor, {greeting.text} {greeting.emoji}
         </h2>
     );
 };
