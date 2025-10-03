@@ -1,5 +1,5 @@
 {
-  "name": "cosméticos-full-service",
+  "name": "cosméticos-full-service-dashboard",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -9,8 +9,9 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "react": "18.3.1",
-    "recharts": "2.12.7"
+    "react": "^19.2.0",
+    "recharts": "2.12.7",
+    "react-dom": "^19.2.0"
   },
   "devDependencies": {
     "@types/node": "^22.14.0",

@@ -177,40 +177,52 @@ export const AddDataView: React.FC<AddDataViewProps> = ({ onUpdateData, onResetD
     alert(`${numericQuantity} transações adicionadas com sucesso!`);
   }, [bulkProduct, bulkAmount, bulkQuantity, bulkDate, isRandomizationEnabled, conversionRate, onUpdateData]);
 
-  const createNotification = () => {
+  const createServiceWorkerNotification = () => {
     if (!notificationMessage.trim()) {
       alert("Por favor, escreva uma mensagem para a notificação.");
       return;
     }
-    const iconUrl = notificationImage ? URL.createObjectURL(notificationImage) : undefined;
-    const notification = new Notification('Cosméticos Full Service', { body: notificationMessage, icon: iconUrl, tag: 'cosmeticos-full-service-notification' });
-    if(iconUrl) notification.onclose = () => URL.revokeObjectURL(iconUrl);
-    alert('Notificação disparada!');
+    if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.ready.then(registration => {
+            registration.showNotification('Cosméticos Full Service', {
+                body: notificationMessage,
+                icon: imagePreview || 'https://i.ibb.co/mRpB2Bw/cosmeticos-logo.png',
+                tag: 'cosmeticos-notification'
+            });
+            alert('Notificação disparada!');
+        }).catch(err => {
+            console.error('Service Worker not ready for notification:', err);
+            alert('Não foi possível disparar a notificação via Service Worker.');
+        });
+    }
   };
-
+  
   const handleSendNotifications = () => {
     if (!notificationsEnabled) {
       alert("As notificações estão desativadas.");
       return;
     }
-    
-    const isIOS = typeof navigator !== 'undefined' && /iPad|iPhone|iPod/.test(navigator.userAgent);
-    if (isIOS) {
-        alert('As notificações web nativas não são totalmente suportadas em aplicativos da tela inicial (PWAs) no iOS. Para uma experiência de notificação completa, use um navegador de desktop ou um dispositivo Android.');
-        return;
-    }
 
-    if (!('Notification' in window)) {
-      alert('Este navegador não suporta notificações.');
+    if (!('Notification' in window) || !('serviceWorker' in navigator)) {
+      alert('Este navegador não suporta notificações para PWA.');
       return;
+    }
+    
+    // FIX: Cast window to `any` to access the non-standard MSStream property without a TypeScript error.
+    const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !(window as any).MSStream;
+    if (isIOS) {
+        alert('As notificações web nativas podem ter suporte limitado no iOS. Para a melhor experiência, use um navegador de desktop ou um dispositivo Android.');
     }
 
     if (Notification.permission === 'granted') {
-      createNotification();
+      createServiceWorkerNotification();
     } else if (Notification.permission !== 'denied') {
       Notification.requestPermission().then((permission) => {
-        if (permission === 'granted') createNotification();
-        else alert('Permissão para notificações foi negada.');
+        if (permission === 'granted') {
+          createServiceWorkerNotification();
+        } else {
+          alert('Permissão para notificações foi negada.');
+        }
       });
     } else {
       alert('As notificações estão bloqueadas. Por favor, habilite-as nas configurações do seu navegador.');

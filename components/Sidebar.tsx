@@ -8,7 +8,9 @@ interface SidebarProps {
 }
 
 const NavItem: React.FC<{
-  icon: JSX.Element;
+  // FIX: Updated icon prop type to be more specific. This resolves a TypeScript error with `React.cloneElement`
+  // where the generic props type was being inferred as `unknown`.
+  icon: React.ReactElement<{ className?: string }>;
   label: string;
   isActive: boolean;
   isCollapsed: boolean;
